@@ -64,8 +64,7 @@ sub _dzil_test {
       );
       ok( $tzil, "created test dist" );
 
-##      capture { $tzil->release };
-      $tzil->release;
+      capture { $tzil->release };
     }
     finally {
       my $err = shift || '';
