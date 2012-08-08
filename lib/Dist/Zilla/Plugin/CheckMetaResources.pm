@@ -22,25 +22,16 @@ with 'Dist::Zilla::Role::BeforeRelease';
 
 sub before_release {
   my $self = shift;
-##  my $changes_file = $self->changelog;
-##  my $newver = $self->zilla->version;
-##
-##  $self->log("Checking Changes");
-##
-##  $self->zilla->ensure_built_in;
-##
-##  # chdir in
-##  my $wd = File::pushd::pushd($self->zilla->built_in);
-##
-##  if ( ! -e $changes_file ) {
-##    $self->log_fatal("No $changes_file file found");
-##  }
-##  elsif ( $self->_get_changes ) {
-##    $self->log("$changes_file OK");
-##  }
-##  else {
-##    $self->log_fatal("$changes_file has no content for $newver");
-##  }
+  my $distmeta = $self->zilla->distmeta;
+
+  $self->log("Checking META resources");
+
+  if ( ref $distmeta->{resources} eq 'HASH' ) {
+    $self->log("META resources OK");
+  }
+  else {
+    $self->log_fatal("META resources not specified");
+  }
 
   return;
 }
