@@ -7,8 +7,6 @@ package Dist::Zilla::Plugin::CheckMetaResources;
 # VERSION
 
 # Dependencies
-use autodie 2.00;
-
 use Dist::Zilla 4 ();
 use autodie 2.00;
 use Moose 0.99;
@@ -65,17 +63,27 @@ __PACKAGE__->meta->make_immutable;
 
 =head1 DESCRIPTION
 
-This is a "before release" Dist::Zilla plugin that ensures that your META file
-will contain some "resources" data. If it doesn't find any, it will abort the
-release process.
+This is a "before release" L<Dist::Zilla> plugin that ensures that your META file
+will contain some "resources" data.
 
-=head1 USAGE
+By default, it requires you to have at least 'repository' and 'bugtracker'
+sections, but 'homepage' is optional.
 
-Good luck!
+You can toggle any of these checks on or off.  For example:
+
+  [CheckMetaResources]
+  repository = 1
+  bugtracker = 0
+  homepage = 1
 
 =head1 SEE ALSO
 
-Maybe other modules do related things.
+=for :list
+* L<Dist::Zilla>
+* L<Dist::Zilla::Plugin::MetaResources>
+* L<Dist::Zilla::Plugin::GithubMetas>
+* L<Dist::Zilla::Plugin::AutoMetaResources>
+* ... and plenty more (search metacpan.org for "dist zilla plugin meta")
 
 =cut
 
