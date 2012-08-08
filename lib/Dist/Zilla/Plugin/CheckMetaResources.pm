@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 package Dist::Zilla::Plugin::CheckMetaResources;
-# ABSTRACT: No abstract given for Dist::Zilla::Plugin::CheckMetaResources
+# ABSTRACT: Ensure META includes resources
 # VERSION
 
 # Dependencies
@@ -16,21 +16,36 @@ use namespace::autoclean 0.09;
 
 # extends, roles, attributes, etc.
 
+has [qw/repository bugtracker/] => (
+  is => 'ro',
+  isa => 'Bool',
+  default => 1,
+);
+
+has homepage => (
+  is => 'ro',
+  isa => 'Bool',
+  default => 0,
+);
+
 with 'Dist::Zilla::Role::BeforeRelease';
 
 # methods
 
 sub before_release {
   my $self = shift;
-  my $distmeta = $self->zilla->distmeta;
+  my $dm = $self->zilla->distmeta;
 
   $self->log("Checking META resources");
 
-  if ( ref $distmeta->{resources} eq 'HASH' ) {
+  my @keys = qw/repository bugtracker homepage/;
+  my @errors = grep { $self->$_ && ! exists $dm->{resources}{$_} } @keys;
+
+  if ( ! @errors ) {
     $self->log("META resources OK");
   }
   else {
-    $self->log_fatal("META resources not specified");
+    $self->log_fatal("META resources not specified: @errors");
   }
 
   return;
